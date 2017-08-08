@@ -11,14 +11,11 @@ module.exports = (path, callback) => {
     childs: undefined
   };
 
-  let stats = fs.statSync(path);
-
-
   fs.stat(path, (err, stats) => {
     if (stats.isFile()) {
       info.type = 'file';
       fs.readFile(path, { encoding: 'utf8' }, (err, data) => {
-         if (err) throw err;
+         if (err) collback(err);
         info.content = data;
         callback(null, info);
       })

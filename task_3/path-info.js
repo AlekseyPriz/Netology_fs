@@ -15,19 +15,19 @@ module.exports = (path, callback) => {
     if (stats.isFile()) {
       info.type = 'file';
       fs.readFile(path, { encoding: 'utf8' }, (err, data) => {
-         if (err) collback(err);
+         if (err) return callback(err);
         info.content = data;
-        callback(null, info);
+        return callback(null, info);
       })
     } else if (stats.isDirectory()) {
       info.type = 'directory';
       fs.readdir(path, { encoding: 'utf8' }, (err, files) => {
-        if (err) throw err;
+        if (err) return callback(err);
         info.childs = files;
-        callback(null, info);
+        return callback(null, info);
       })
     } else {
-      let err = new Error('Что - то пошло не так');
+      return callback(err);
     }
   });
 };
